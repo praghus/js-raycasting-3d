@@ -1,0 +1,6 @@
+export { default as Bitmap } from './bitmap'
+export { default as Camera } from './camera'
+export { default as Game } from './game'
+export { default as Input } from './input'
+export { default as Map } from './map'
+export { default as Player } from './player'
