@@ -1,4 +1,5 @@
-import { Asset, StringTMap } from 'd4d-ray-casting'
+import { StringTMap } from 'd4d-ray-casting'
+import { Bitmap } from './models'
 
 const requireAll = (requireContext: any) => requireContext.keys().map(requireContext)
 const allImages = require.context('./assets', true, /.*\.(png|jpg)/)
@@ -8,10 +9,10 @@ const images = requireAll(allImages).reduce(
 
 export const CIRCLE = Math.PI * 2
 
-export const ASSETS: StringTMap<Asset> = {
-    BG: {src: images.bg, width: 2000, height: 750 },
-    WALL: {src: images.wall4, width: 512, height: 512 },
-    WEAPON: {src: images.stick, width: 175, height: 228 }
+export const ASSETS: StringTMap<Bitmap> = {
+    BG: new Bitmap({src: images.bg3, width: 2000, height: 750 }),
+    WALL: new Bitmap({src: images.wall4, width: 512, height: 512 }),
+    WEAPON: new Bitmap({src: images.stick, width: 175, height: 228 })
 }
 
 export const KEYS = { 
@@ -33,7 +34,7 @@ export const DUNGEON_CONFIG = {
         'any': {
             'min_size': [2, 2],
             'max_size': [5, 5],
-            'max_exits': 4
+            'max_exits': 6
         }
     },
     'max_corridor_length': 6,

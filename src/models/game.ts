@@ -13,8 +13,8 @@ export default class Game {
     
     frame (time: number) {
         const delta = (time - this.lastFrameTime) / 1000
+        if (delta < 0.2) this.callback(delta)
         this.lastFrameTime = time
-        if (delta < 0.6) this.callback(delta)
         requestAnimationFrame(this.frame)
     }
 }

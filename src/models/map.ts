@@ -1,5 +1,4 @@
-import { ASSETS, DUNGEON_CONFIG } from '../constants'
-import Bitmap from './bitmap'
+import { DUNGEON_CONFIG } from '../constants'
 import Player from './player'
 
 /* eslint-disable @typescript-eslint/no-var-requires */
@@ -9,32 +8,22 @@ const dungeon = new DungeonGenerator(DUNGEON_CONFIG)
 export default class Map {
     public width: number
     public height: number
-    public light = 0
     public startPos: any
     public walls: any[] = []
-    public assets = {
-        background: new Bitmap(ASSETS.BG),
-        wall: new Bitmap(ASSETS.WALL)
-    } 
 
     constructor () {
         dungeon.generate()
         this.startPos = dungeon['start_pos']
         this.height = dungeon.walls.rows.length
         this.width = dungeon.walls.rows[0].length
-        for (const row of dungeon.walls.rows) {
-            this.walls = this.walls.concat(row)
-        }
+        this.walls = [].concat(...dungeon.walls.rows.map((row: number[]) => row))
+ 
         // this.walls = new Uint8Array(this.width * this.height)
         // for (let i = 0; i < this.width * this.height; i++) {
         //     this.walls[i] = Math.random() < 0.3 ? 1 : 0
         // }
     }
-    
-    update (time: number) {
-        if (this.light > 0) this.light = Math.max(this.light - 10 * time, 0)
-        else if (Math.random() * 5 < time) this.light = 2
-    }
+
 
     get (x: number, y: number): number {
         [x, y] = [Math.floor(x), Math.floor(y)]

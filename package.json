@@ -1,22 +1,20 @@
 {
   "version": "0.0.1",
-  "author": "Piotr PRaga",
+  "author": "Piotr Praga",
   "description": "",
   "license": "ISC",
   "main": "src/index.ts",
-  "name": "d4d-ray-casting-3d",
-  "directories": {
-    "test": "tests"
-  },
+  "typings": "src/types/index.d.ts",
+  "name": "d4d-ray-casting",
   "scripts": {
     "build": "npm run build:prod",
     "build:dev": "webpack --mode development --config ./webpack.config.js --progress --color --display-error-details",
     "build:prod": "cross-env NODE_ENV=production webpack --mode production --config ./webpack.config.js --progress  --color --display-error-details --bail",
-    "clean": "npm cache clear && rimraf -- dist",
+    "clean": "rimraf dist",
     "fix:eslint": "eslint src/** --fix",
     "server": "npm run server:dev",
     "server:dev": "webpack-dev-server --mode development --config ./webpack.config.js --hot --inline --progress --watch --open",
-    "server:prod": "cross-env NODE_ENV=production webpack-dev-server  --mode production --config ./webpack.config.js --port 3000 --host 0.0.0.0 --hot --inline --progress  --watch --open --content-base dist/",
+    "server:prod": "cross-env NODE_ENV=production webpack-dev-server --mode production --config ./webpack.config.js --port 3000 --host 0.0.0.0 --hot --inline --progress  --watch --open --content-base dist/",
     "start": "npm run server:dev"
   },
   "devDependencies": {

@@ -1,10 +1,7 @@
-import { ASSETS, CIRCLE } from '../constants'
-import Bitmap from './bitmap'
-import Camera from './camera'
+import { CIRCLE } from '../constants'
 import Map from './map'
 
 export default class Player {
-    public weapon: Bitmap = new Bitmap(ASSETS.WEAPON)
     public paces = 0
 
     constructor (
@@ -16,18 +13,8 @@ export default class Player {
     update (input: any, map: Map, time: number): void {
         if (input.left) this.rotate(-Math.PI * time)
         if (input.right) this.rotate(Math.PI * time)
-        if (input.forward) this.walk(3 * time, map)
-        if (input.backward) this.walk(-3 * time, map)
-    }
-
-    draw (camera: Camera): void {
-        const { ctx, width, height, scale } = camera
-        const { weapon, paces } = this
-        const bobX = Math.cos(paces * 2) * scale * 6
-        const bobY = Math.sin(paces * 4) * scale * 6
-        const left = width * 0.66 + bobX
-        const top = (height - weapon.height * scale) + bobY + 8
-        ctx.drawImage(weapon.image, left, top, weapon.width * scale, weapon.height * scale)
+        if (input.forward) this.walk(2 * time, map)
+        if (input.backward) this.walk(-2 * time, map)
     }
 
     rotate (angle: number): void {

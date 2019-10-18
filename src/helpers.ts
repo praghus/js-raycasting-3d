@@ -1,75 +1,156 @@
-export class V {
+class V {
     constructor (
         public x: number, 
         public y: number
     ) {}
 }
 
-export class L {
+class L {
     constructor (
         public a: V,
         public b: V
     ) {}
 }
 
-export class POI {
+class POI {
     constructor (
         public x: number,
         public y: number,
-        public p: number
+        public len: number,
+        public angle?: number
     ) {}
 }
 
-const w = window.innerWidth 
-const h =  window.innerHeight 
+const canvas: any = document.getElementById('canvas')
+const ctx: CanvasRenderingContext2D = canvas.getContext('2d')	
+const Mouse: V = { x: canvas.width / 2, y: canvas.height / 2 }
+const Plot: V[] = []
 
-export const BOUNDARIES = [
+const w = canvas.width = window.innerWidth 
+const h = canvas.height = window.innerHeight 
+
+const Boundaries = [
     new L(new V(0, 0), new V(w, 0)),
     new L(new V(w, 0), new V(w, h)),
     new L(new V(w, h), new V(0, h)),
-    new L(new V(0, h), new V(0, 0)),
-
-    new L(new V(290, 230), new V(290, 200)), 
-    new L(new V(290, 200), new V(330, 200)), 
-    new L(new V(330, 200), new V(330, 100)), 
-    new L(new V(330, 100), new V(100, 100)), 
-    new L(new V(100, 100), new V(100, 200)), 
-    new L(new V(100, 200), new V(200, 200)), 
-    new L(new V(200, 200), new V(200, 230)),
-    new L(new V(200, 230), new V(290, 230))
+    new L(new V(0, h), new V(0, 0))
 ]
 
-// Find intersection of RAY & BOUNDARY
-export function getIntersection (ray: L, boundary: L): POI {
-    // Ray in parametric: Point + Delta*T1
+canvas.onmousemove = (event: MouseEvent) => {
+    Mouse.x = event.clientX
+    Mouse.y = event.clientY
+}
 
+canvas.onmousedown = (event: MouseEvent) => {    
+    Plot.push(new V(event.clientX, event.clientY))
+    if (Plot.length === 2) {
+        Boundaries.push(new L(Plot[0], Plot[1]))
+        Plot.splice(0, Plot.length)
+    }
+}
+
+// Find intersection of RAY & BOUNDARY
+function getIntersection (ray: L, boundary: L): POI {
+    // Ray in parametric: Point + Delta * T1
     const raX = ray.a.x
     const raY = ray.a.y
     const rbX = ray.b.x - ray.a.x
     const rbY = ray.b.y - ray.a.y
 
-    // Boundary in parametric: Point + Delta*T2
-    const saX = boundary.a.x
-    const saY = boundary.a.y
-    const sdX = boundary.b.x - boundary.a.x
-    const sdY = boundary.b.y - boundary.a.y
+    // Boundary in parametric: Point + Delta * T2
+    const baX = boundary.a.x
+    const baY = boundary.a.y
+    const bbX = boundary.b.x - boundary.a.x
+    const bbY = boundary.b.y - boundary.a.y
 
     // Are they parallel? If so, no intersect
     const rMag = Math.sqrt(rbX * rbX + rbY * rbY)
-    const sMag = Math.sqrt(sdX * sdX + sdY * sdY)
-    if (rbX / rMag == sdX / sMag && rbY / rMag == sdY / sMag) {
+    const sMag = Math.sqrt(bbX * bbX + bbY * bbY)
+    if (rbX / rMag === bbX / sMag && rbY / rMag === bbY / sMag) {
         // Unit vectors are the same.
         return null
     }
-
     // SOLVE FOR T1 & T2
-    const T2 = (rbX * (saY - raY) + rbY * (raX - saX)) / (sdX * rbY - sdY * rbX)
-    const T1 = (saX + sdX * T2 - raX) / rbX
+    const T2 = (rbX * (baY - raY) + rbY * (raX - baX)) / (bbX * rbY - bbY * rbX)
+    const T1 = (baX + bbX * T2 - raX) / rbX
 
     // Must be within parametic whatevers for Ray/Boundary
-    if (T1 < 0) return null
-    if (T2 < 0 || T2 > 1) return null
+    if (T1 < 0 || T2 < 0 || T2 > 1) return null
 
     // Return the POINT OF INTERSECTION
     return new POI(raX + rbX * T1, raY + rbY * T1, T1)
+}
+
+export function calculate () {
+    const points = [].concat(...Boundaries.map(({a, b}) => ([a, b])).map((p) => p))
+    const uniqueAngles = [].concat(...points.map((p) => {
+        p.angle = Math.atan2(p.y - Mouse.y, p.x - Mouse.x)
+        return [p.angle - 0.00001, p.angle, p.angle + 0.00001]
+    }))
+    
+    const intersects = []
+
+    //for (let angle = 0; angle < Math.PI * 2; angle += (Math.PI * 2) / 90) {
+    for (const angle of uniqueAngles) {
+        const ray: L = {
+            a: { x: Mouse.x, y: Mouse.y },
+            b: { x: Mouse.x + Math.cos(angle), y: Mouse.y + Math.sin(angle) }
+        }
+        // Find closest intersection
+        let closestIntersect: POI = null
+        Boundaries.map((bound) => {
+            const intersect = getIntersection(ray, bound)
+            if (intersect && (!closestIntersect || intersect.len < closestIntersect.len)) {
+                closestIntersect = intersect
+            }
+        })
+        // Intersect angle
+        if (!closestIntersect) continue
+        closestIntersect.angle = angle
+
+        intersects.push(closestIntersect)
+    }
+    // Sort intersects by angle
+    return intersects.sort((a, b) => a.angle - b.angle)
+}
+
+function draw (intersects: POI[]) {
+    ctx.imageSmoothingEnabled = false
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    // gradient
+    const grd = ctx.createRadialGradient(Mouse.x, Mouse.y, 0, Mouse.x, Mouse.y, h)
+    grd.addColorStop(0, 'rgba(255,255,255,0.7)')
+    grd.addColorStop(1, 'rgba(0,0,0,0)')
+
+    // polygons
+    ctx.fillStyle = grd
+    ctx.beginPath()
+    intersects.map(({ x, y }, i) => i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y))
+    ctx.fill()
+    
+    // rays
+    // ctx.strokeStyle = '#fff'
+    // ctx.lineWidth = 2
+    // intersects.map(({ x, y }) => {
+    //     ctx.beginPath()
+    //     ctx.moveTo(Mouse.x, Mouse.y)
+    //     ctx.lineTo(x, y)
+    //     ctx.stroke()
+    // })
+
+    // boundaries
+    ctx.strokeStyle = '#333'
+    ctx.lineWidth = 8
+    Boundaries.map(({a, b}) => {
+        ctx.beginPath()
+        ctx.moveTo(a.x, a.y)
+        ctx.lineTo(b.x, b.y)
+        ctx.stroke()
+    })
+}
+
+export function drawLoop () {
+    requestAnimationFrame(drawLoop)
+    draw(calculate())
 }
