@@ -49,35 +49,27 @@ canvas.onmousedown = (event: MouseEvent) => {
     }
 }
 
-// Find intersection of RAY & BOUNDARY
 function getIntersection (ray: L, boundary: L): POI {
-    // Ray in parametric: Point + Delta * T1
     const raX = ray.a.x
     const raY = ray.a.y
     const rbX = ray.b.x - ray.a.x
     const rbY = ray.b.y - ray.a.y
 
-    // Boundary in parametric: Point + Delta * T2
     const baX = boundary.a.x
     const baY = boundary.a.y
     const bbX = boundary.b.x - boundary.a.x
     const bbY = boundary.b.y - boundary.a.y
 
-    // Are they parallel? If so, no intersect
     const rMag = Math.sqrt(rbX * rbX + rbY * rbY)
     const sMag = Math.sqrt(bbX * bbX + bbY * bbY)
     if (rbX / rMag === bbX / sMag && rbY / rMag === bbY / sMag) {
-        // Unit vectors are the same.
         return null
     }
-    // SOLVE FOR T1 & T2
     const T2 = (rbX * (baY - raY) + rbY * (raX - baX)) / (bbX * rbY - bbY * rbX)
     const T1 = (baX + bbX * T2 - raX) / rbX
 
-    // Must be within parametic whatevers for Ray/Boundary
     if (T1 < 0 || T2 < 0 || T2 > 1) return null
 
-    // Return the POINT OF INTERSECTION
     return new POI(raX + rbX * T1, raY + rbY * T1, T1)
 }
 
@@ -104,13 +96,12 @@ export function calculate () {
                 closestIntersect = intersect
             }
         })
-        // Intersect angle
         if (!closestIntersect) continue
         closestIntersect.angle = angle
 
         intersects.push(closestIntersect)
     }
-    // Sort intersects by angle
+    // Sort by angle
     return intersects.sort((a, b) => a.angle - b.angle)
 }
 

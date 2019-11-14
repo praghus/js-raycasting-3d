@@ -1,7 +1,9 @@
-// import { drawLoop } from './helpers'
+/* 2D examples */
+// import { drawLoop } from './2d'
 // window.onload = drawLoop
 
-import { Player, Input, Camera, Game, Map } from './models'
+/* 3D examples */
+import { Player, Input, Camera, Game, Map } from './3d'
 
 const game = new Game()
 const map = new Map()

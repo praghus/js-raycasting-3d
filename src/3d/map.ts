@@ -17,11 +17,6 @@ export default class Map {
         this.height = dungeon.walls.rows.length
         this.width = dungeon.walls.rows[0].length
         this.walls = [].concat(...dungeon.walls.rows.map((row: number[]) => row))
- 
-        // this.walls = new Uint8Array(this.width * this.height)
-        // for (let i = 0; i < this.width * this.height; i++) {
-        //     this.walls[i] = Math.random() < 0.3 ? 1 : 0
-        // }
     }
 
 
