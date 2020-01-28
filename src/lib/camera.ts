@@ -11,7 +11,7 @@ export default class Camera {
     public height: number
     public focal: number
     public spacing: number
-    public distance = 20
+    public distance = 32
     public brightness = 8
     public resolution = 320
     

@@ -57,6 +57,11 @@ const config = {
                 include: path.join(process.cwd(), 'src/assets'),
                 use: 'url-loader?limit=100&name=[name]-[hash].[ext]'
             },
+            {
+                test: /\.tmx$/,
+                include: path.join(process.cwd(), 'src/assets/map'),
+                use: 'url-loader'
+            },
             { test: /\.css$/, loaders: ['style-loader', 'css-loader'] }
         ].filter(Boolean)
     },

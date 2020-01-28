@@ -10,6 +10,11 @@ declare namespace D4D {
     }
 }
 
+declare module '*.tmx' {
+    const value: any
+    export default value
+}
+
 declare module 'd4d-ray-casting' {
 	export = D4D;
 }

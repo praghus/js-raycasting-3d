@@ -1,5 +1,5 @@
 import { StringTMap } from 'd4d-ray-casting'
-import { Bitmap } from './3d'
+import { Bitmap } from './lib'
 
 const requireAll = (requireContext: any) => requireContext.keys().map(requireContext)
 const allImages = require.context('./assets', true, /.*\.(png|jpg)/)
