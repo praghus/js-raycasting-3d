@@ -52,11 +52,10 @@ export default class Camera {
             const left = Math.floor(x * this.spacing)
             const width = Math.ceil(this.spacing)
             const ray = map.cast(player, player.direction + angle, this.distance)
-            const texture = ASSETS.WALL
+
             let hit = -1
         
             while (++hit < ray.length && ray[hit].height <= 0);
-        
             for (let s = ray.length - 1; s >= 0; s--) {
                 if (s === hit) {
                     const step = ray[s]
@@ -64,10 +63,9 @@ export default class Camera {
                     const height = Math.ceil(this.height * step.height / z)
                     const bottom = this.height / 2 * (1 + 1 / z)
                     const top = Math.floor(bottom - height)
-                    
                     // this.ctx.fillStyle = '#fff'
                     // this.ctx.fillRect(left, top, width, height)
-                    texture.drawClip(step.offset, left, top, width, height)(this.ctx)
+                    ASSETS.WALLS.drawClip(step, left, top, width, height)(this.ctx)
                     this.ctx.fillStyle = shadow(Math.max((step.distance + step.shading) / this.brightness, 0))
                     this.ctx.fillRect(left, top, width, height)
                 }
@@ -84,7 +82,7 @@ export default class Camera {
         this.ctx.fillStyle = shadow(0.2, 255)
         for (let y = 0; y < height; y++) {      
             for (let x = 0; x < width; x++) {
-                !map.get(x, y) && this.ctx.fillRect(posX - x * scale, posY - y * scale, scale, scale)
+                map.get(x, y) && this.ctx.fillRect(posX - x * scale, posY - y * scale, scale, scale)
             }
         }
         this.ctx.fillStyle = '#f00'

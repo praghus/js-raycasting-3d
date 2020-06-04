@@ -1278,12 +1278,6 @@ domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-dungeon-generator@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/dungeon-generator/-/dungeon-generator-0.0.1.tgz#d434de9e30ece37489bb17de2ff8b2be4edd4ffc"
-  dependencies:
-    random-seed "^0.3.0"
-
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.7.1.tgz#2a4df5317f6ccfd91f86d6fd25d8d8a103b88309"
@@ -2519,10 +2513,6 @@ json-stable-stringify-without-jsonify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
 
-json-stringify-safe@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
-
 json3@^3.3.2:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.3.tgz#7fc10e375fc5ae42c4705a5cc0aa6f62be305b81"
@@ -3451,12 +3441,6 @@ querystringify@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.1.1.tgz#60e5a5fd64a7f8bfa4d2ab2ed6fdf4c85bad154e"
 
-random-seed@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/random-seed/-/random-seed-0.3.0.tgz#d945f2e1f38f49e8d58913431b8bf6bb937556cd"
-  dependencies:
-    json-stringify-safe "^5.0.1"
-
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
@@ -4206,9 +4190,10 @@ tmp@^0.0.33:
   dependencies:
     os-tmpdir "~1.0.2"
 
-tmx-tiledmap@^1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/tmx-tiledmap/-/tmx-tiledmap-1.1.7.tgz#12142f5e729a8dff6b5a00c3eebe41a92e80f0b4"
+tmx-tiledmap@1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/tmx-tiledmap/-/tmx-tiledmap-1.1.8.tgz#975d997cb42b669c5f851678074e2f61d1f62a16"
+  integrity sha512-jPW4W7tq9kDe6ZC4FQZrr6m5TvS7KEzOnnPZ1PEBCcO8nKu8LRuDsMM9Z2hR2K4z79ygKMW5kcZDJqgLwEUIlw==
 
 to-arraybuffer@^1.0.0:
   version "1.0.1"

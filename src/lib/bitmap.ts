@@ -12,14 +12,17 @@ export default class Bitmap {
     }
 
     drawClip (
-        offset: number, 
+        step: any,
         x: number, 
         y: number, 
         w: number, 
         h: number
     ) {
+        const { tile, offset } = step
+        const posX = ((tile - 1) % 4) * this.width
+        const posY = (Math.ceil(((tile - 1) + 1) / 4) - 1) * this.height
         return (ctx: CanvasRenderingContext2D) => ctx.drawImage(this.image, 
-            Math.floor(this.width * offset), 0, 
+            posX + Math.floor(this.width * offset), posY, 
             1, this.height, 
             x, y, 
             w, h)

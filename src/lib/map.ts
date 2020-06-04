@@ -1,24 +1,15 @@
-import { DUNGEON_CONFIG } from '../constants'
 import Player from './player'
-
-/* eslint-disable @typescript-eslint/no-var-requires */
-const DungeonGenerator = require('dungeon-generator')
-const dungeon = new DungeonGenerator(DUNGEON_CONFIG)
 
 export default class Map {
     public width: number
     public height: number
-    public startPos: any
     public walls: any[] = []
 
-    constructor () {
-        dungeon.generate()
-        this.startPos = dungeon['start_pos']
-        this.height = dungeon.walls.rows.length
-        this.width = dungeon.walls.rows[0].length
-        this.walls = [].concat(...dungeon.walls.rows.map((row: number[]) => row))
+    constructor (data: any) {
+        this.height = data.height
+        this.width = data.width
+        this.walls = data.layers[1].data
     }
-
 
     get (x: number, y: number): number {
         [x, y] = [Math.floor(x), Math.floor(y)]
@@ -51,12 +42,15 @@ export default class Map {
             const dx = cos < 0 && !inverted ? 1 : 0
             const dy = sin < 0 && inverted ? 1 : 0
             const offset = inverted ? step.x : step.y
-            step.height = this.get(step.x - dx, step.y - dy)
-            step.offset = offset - Math.floor(offset) 
-            step.shading = inverted 
-                ? sin < 0 ? 2 : 1
-                : cos < 0 ? 2 : 0
-            return step
+            const tile = this.get(step.x - dx, step.y - dy)
+            return Object.assign(step, {
+                tile, 
+                height: tile > 0 ? 1 : 0, 
+                offset: offset - Math.floor(offset),
+                shading: inverted 
+                    ? sin < 0 ? 2 : 1
+                    : cos < 0 ? 2 : 0
+            })
         }
 
         const ray = (step: any): any => {

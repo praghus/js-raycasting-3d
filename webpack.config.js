@@ -11,7 +11,7 @@ const plugins = [
         }
     }),
     new HtmlWebpackPlugin({
-        title: 'D4D - Ray casting examples',
+        title: 'Ray casting',
         template: '!!ejs-loader!src/index.html'
     }),
     new webpack.LoaderOptionsPlugin({
