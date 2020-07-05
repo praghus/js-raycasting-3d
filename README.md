@@ -1,5 +1,5 @@
 # 3D Ray casting 
-Example of 3D ray casting with `*.tmx` map support.
+Example of Java Script 3D ray casting using a `*.tmx` tiled map and custom textures.
 
 🎮 [Demo](https://raycasting3d.surge.sh)
 
