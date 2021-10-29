@@ -3,4 +3,5 @@ Example of Java Script 3D ray casting using a `*.tmx` tiled map and custom textu
 
 ## 🎮 [Demo](https://raycasting3d.surge.sh)
 
-![Screenshot](./src/assets/screen.png "Screenshot")
+[![Screenshot](./src/assets/screen.png "Screenshot")](https://raycasting3d.surge.sh)
+
