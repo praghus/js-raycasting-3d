@@ -41,6 +41,6 @@
   },
   "dependencies": {
     "tmx-tiledmap": "1.1.8",
-    "xml2js": "^0.4.22"
+    "xml2js": "^0.5.0"
   }
 }
