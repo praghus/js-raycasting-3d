@@ -37,7 +37,7 @@
     "url-loader": "^3.0.0",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.9.0"
+    "webpack-dev-server": "^5.2.1"
   },
   "dependencies": {
     "tmx-tiledmap": "1.1.8",
